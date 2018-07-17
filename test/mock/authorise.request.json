@@ -1,0 +1,19 @@
+{
+  "intent": "authorize",
+  "payer": {
+    "payment_method": "paypal"
+  },
+  "redirect_urls": {
+    "return_url": "http://127.0.0.1:3000/success",
+    "cancel_url": "http://127.0.0.1:3000/err"
+  },
+  "transactions": [
+    {
+      "amount": {
+        "total": 8.45,
+        "currency": "AUD"
+      },
+      "description": "Quarter chicken w chips order id #12345678"
+    }
+  ]
+}

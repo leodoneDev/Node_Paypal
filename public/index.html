@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang=en>
+  <head>
+    <meta charset=utf-8>
+    <title>Paypal server side integration example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+  </head>
+
+  <body>
+    <h1>Paypal server side integration example</h1>
+    <article>
+      <h3>Cart</h3>
+      <p>Chicken family meal: $8.45</p>
+      <p>Order #905625</p>
+    </article>
+
+    <div id="paypal-button-container"></div>
+
+    <script>
+      paypal.Button.render({
+        env: 'sandbox', // sandbox | production
+        commit: true, // Show the buyer a 'Pay Now' button in the checkout flow
+        payment: function () { // payment() is called when the button is clicked
+          console.log('payment flow started');
+          return paypal.request({
+            method: 'POST',
+            url: 'http://localhost:3000/paypal/create',
+            json: {
+              orderId: '905625',
+              amount: 8.45,
+              description: 'Chicken family meal order #905625'
+            }
+          })
+          .then(function (res) {
+            return res.data.id;
+          })
+          .catch(function(e){
+            console.log('Payment error', e);
+          })
+        },
+
+        // onAuthorize is called when the buyer approves the payment
+        onAuthorize: function (data, actions) {
+          console.log('payment authorisation started');
+
+          return paypal.request({
+            method: 'POST',
+            url: 'http://localhost:3000/paypal/execute',
+            json: data
+          })
+          .then(function (res) {
+            console.log('Transaction complete');
+            console.log('Transaction id: ' + res.data.attributes.id);
+          })
+          .catch(function(e){
+            console.log('Payment error', e);
+          })
+        }
+      }, '#paypal-button-container');
+    </script>
+  </body>
+</html>

@@ -1,0 +1,110 @@
+{
+  "name": "paypal-serverside-integration",
+  "version": "1.0.0",
+  "description": "Paypal server side integration example",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "babel-node src/index.js -r dotenv/config",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": [
+      "airbnb-base"
+    ],
+    "env": {
+      "node": true,
+      "mocha": true,
+      "es6": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module"
+    },
+    "rules": {
+      "arrow-parens": [
+        "error",
+        "as-needed"
+      ],
+      "max-len": [
+        "error",
+        {
+          "code": 150
+        }
+      ],
+      "no-restricted-syntax": [
+        "off",
+        {
+          "selector": "for..of"
+        }
+      ],
+      "no-underscore-dangle": 0,
+      "no-console": 0,
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          "devDependencies": true
+        }
+      ],
+      "prefer-destructuring": [
+        "error",
+        {
+          "AssignmentExpression": {
+            "array": false,
+            "object": false
+          }
+        }
+      ]
+    }
+  },
+  "babel": {
+    "plugins": [
+      [
+        "transform-object-rest-spread",
+        {
+          "useBuiltIns": true
+        }
+      ]
+    ],
+    "env": {
+      "test": {
+        "plugins": [
+          "istanbul"
+        ]
+      }
+    },
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": "8.10"
+          },
+          "include": [
+            "transform-async-to-generator",
+            "es7.object.values",
+            "es7.object.entries"
+          ]
+        }
+      ]
+    ]
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-istanbul": "^4.1.5",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "dotenv": "^5.0.1",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.0.0",
+    "eslint-plugin-import": "^2.7.0"
+  },
+  "dependencies": {
+    "express": "^4.15.4",
+    "joi": "^13.4.0",
+    "paypal-rest-sdk": "^1.7.1"
+  }
+}

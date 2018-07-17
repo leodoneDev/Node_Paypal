@@ -1,0 +1,37 @@
+{
+  "id": "PAY-68368484B5471681DLNDQKBI",
+  "intent": "authorize",
+  "state": "created",
+  "payer": {
+    "payment_method": "paypal"
+  },
+  "transactions": [
+    {
+      "amount": {
+        "total": "8.75",
+        "currency": "AUD"
+      },
+      "description": "Quarter chicken order #12345678",
+      "related_resources": []
+    }
+  ],
+  "create_time": "2018-07-12T07:36:37Z",
+  "links": [
+    {
+      "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAY-68368484B5471681DLNDQKBI",
+      "rel": "self",
+      "method": "GET"
+    },
+    {
+      "href": "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-7M080964VU980051K",
+      "rel": "approval_url",
+      "method": "REDIRECT"
+    },
+    {
+      "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAY-68368484B5471681DLNDQKBI/execute",
+      "rel": "execute",
+      "method": "POST"
+    }
+  ],
+  "httpStatusCode": 201
+}

@@ -1,0 +1,8 @@
+{
+  "paymentToken": "EC-6PA61039B6159790K",
+  "orderID": "EC-6PA61039B6159790K",
+  "payerID": "FKGGWLJPNKDT4",
+  "paymentID": "PAY-98772465SW995330BLNGW2CI",
+  "intent": "authorize",
+  "returnUrl": "http://127.0.0.1:3000/success?paymentId=PAY-98772465SW995330BLNGW2CI&token=EC-6PA61039B6159790K&PayerID=FKGGWLJPNKDT4"
+}

@@ -1,0 +1,106 @@
+{
+  "id": "PAY-98772465SW995330BLNGW2CI",
+  "intent": "authorize",
+  "state": "approved",
+  "cart": "6PA61039B6159790K",
+  "payer": {
+    "payment_method": "paypal",
+    "status": "UNVERIFIED",
+    "payer_info": {
+      "email": "peter.parker@email.com",
+      "first_name": "Peter",
+      "last_name": "Parker",
+      "payer_id": "FKGGWLJPNKDT4",
+      "shipping_address": {
+        "recipient_name": "Peter Parker",
+        "line1": "75 Bayswater Rd",
+        "city": "Potts Point",
+        "state": "NSW",
+        "postal_code": "2011",
+        "country_code": "AU"
+      },
+      "country_code": "AU"
+    }
+  },
+  "transactions": [
+    {
+      "amount": {
+        "total": "8.45",
+        "currency": "AUD",
+        "details": {}
+      },
+      "payee": {
+        "merchant_id": "8DUDYZM36HHTL",
+        "email": "peter.parker-facilitator@email.com"
+      },
+      "description": "Chicken family meal order id #905625",
+      "item_list": {
+        "shipping_address": {
+          "recipient_name": "Peter Parker",
+          "line1": "75 Bayswater Rd",
+          "city": "Potts Point",
+          "state": "NSW",
+          "postal_code": "2011",
+          "country_code": "AU"
+        }
+      },
+      "related_resources": [
+        {
+          "authorization": {
+            "id": "3W255614RJ075370N",
+            "state": "authorized",
+            "amount": {
+              "total": "8.45",
+              "currency": "AUD",
+              "details": {}
+            },
+            "payment_mode": "INSTANT_TRANSFER",
+            "reason_code": "AUTHORIZATION",
+            "protection_eligibility": "ELIGIBLE",
+            "protection_eligibility_type": "ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE",
+            "parent_payment": "PAY-98772465SW995330BLNGW2CI",
+            "valid_until": "2018-08-15T04:14:18Z",
+            "create_time": "2018-07-17T04:14:18Z",
+            "update_time": "2018-07-17T04:14:18Z",
+            "links": [
+              {
+                "href": "https://api.sandbox.paypal.com/v1/payments/authorization/3W255614RJ075370N",
+                "rel": "self",
+                "method": "GET"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v1/payments/authorization/3W255614RJ075370N/capture",
+                "rel": "capture",
+                "method": "POST"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v1/payments/authorization/3W255614RJ075370N/void",
+                "rel": "void",
+                "method": "POST"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v1/payments/authorization/3W255614RJ075370N/reauthorize",
+                "rel": "reauthorize",
+                "method": "POST"
+              },
+              {
+                "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAY-98772465SW995330BLNGW2CI",
+                "rel": "parent_payment",
+                "method": "GET"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "create_time": "2018-07-17T04:14:19Z",
+  "links": [
+    {
+      "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAY-98772465SW995330BLNGW2CI",
+      "rel": "self",
+      "method": "GET"
+    }
+  ],
+  "httpStatusCode": 200
+}
