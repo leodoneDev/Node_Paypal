@@ -1,4 +1,4 @@
-# Paypal node implementation
+# Paypal server-side implementation with Node.js
 
 ## Prerequisites and configuration
 * Go to https://developer.paypal.com/
