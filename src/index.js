@@ -1,31 +1,26 @@
 import express from 'express';
+import morgan from 'morgan';
 import path from 'path';
 import dotenv from 'dotenv';
 import paypalController from './controllers/paypal';
 import pagesController from './controllers/pages';
+import log from './services/logger';
 
 const app = express();
 dotenv.config();
 
-const interceptRequest = (req, res, next) => {
-  const meta = {
-    host: req.get('host'),
-    path: req.path,
-    query: req.query,
-    body: req.body,
-  };
-
-  console.log('Incoming request', JSON.stringify(meta, null, 2));
-  next();
-};
-
 app
   .use(express.json())
-  .use(interceptRequest)
+  .use(morgan('combined', {
+    skip: (req, res) => res.statusCode < 400, stream: process.stderr,
+  }))
+  .use(morgan('combined', {
+    skip: (req, res) => res.statusCode >= 400, stream: process.stdout,
+  }))
   .use('/', express.static(path.join(__dirname, '../public')))
   .use('/', paypalController)
   .use('/', pagesController);
 
 app.listen(process.env.PORT || 3000, () => {
-  console.log(`app listening on port ${process.env.PORT || 3000}`);
+  log.info(`App listening on port ${process.env.PORT || 3000}`);
 });

@@ -1,4 +1,6 @@
-import paypal from 'paypal-rest-sdk';
+import paypalSDK from 'paypal-rest-sdk';
+import get from 'lodash/get';
+import pick from 'lodash/pick';
 
 export default class PaypalService {
   constructor({
@@ -10,7 +12,8 @@ export default class PaypalService {
     if (!clientSecret) throw new Error('Required: process.env.PAYPAL_CLIENT_SECRET');
     if (!mode) throw new Error('Required: process.env.PAYPAL_MODE');
 
-    paypal.configure({
+    this.paypal = paypalSDK;
+    this.paypal.configure({
       client_id: clientId,
       client_secret: clientSecret,
       mode,
@@ -22,20 +25,16 @@ export default class PaypalService {
    * https://developer.paypal.com/docs/api/payments/v1/#payment_create
    * @param {PaypalAuthoriseModel} payment
    */
-  async create(order) { // eslint-disable-line class-methods-use-this
+  async create(order) {
     return new Promise((resolve, reject) => {
-      /**
-       * This is the payload being sent to the Paypal create service
-       * Notice the redirect_url section. It is required, but in the server side flow they never get called
-       */
       const payment = {
-        intent: 'authorize', // [sale, authorize, order]
+        intent: 'sale', // [sale, authorize, order]
         payer: {
           payment_method: 'paypal',
         },
         redirect_urls: {
-          return_url: 'http://127.0.0.1:3000/success',
-          cancel_url: 'http://127.0.0.1:3000/err',
+          return_url: 'http://127.0.0.1', // Not used, but required
+          cancel_url: 'http://127.0.0.1', // Not used, but required
         },
         transactions: [{
           amount: {
@@ -46,7 +45,7 @@ export default class PaypalService {
         }],
       };
 
-      paypal.payment.create(payment, (err, transaction) => {
+      this.paypal.payment.create(payment, (err, transaction) => {
         if (err) {
           reject(err.response ? err.response : err);
         } else {
@@ -61,17 +60,28 @@ export default class PaypalService {
    * https://developer.paypal.com/docs/api/payments/v1/#payment_execute
    * @param {PaypalAuthorisation} authorisation
    */
-  async execute(authorisation) { // eslint-disable-line class-methods-use-this
+  async execute(authorisation) {
     return new Promise((resolve, reject) => {
       const payload = {
         payer_id: authorisation.payerID,
       };
 
-      paypal.payment.execute(authorisation.paymentID, payload, (err, transaction) => {
+      this.paypal.payment.execute(authorisation.paymentID, payload, (err, response) => {
         if (err) {
           reject(err.response ? err.response : err);
         } else {
-          resolve(transaction);
+          const sale = get(response, 'transactions[0].related_resources[0].sale');
+
+          if (!sale) {
+            reject(new Error('Sale expected in payload'));
+            return;
+          }
+
+          resolve({
+            id: response.id,
+            state: response.state,
+            sale: pick(sale, ['id', 'state']),
+          });
         }
       });
     });
@@ -80,32 +90,15 @@ export default class PaypalService {
   /**
    * Shows details for a sale, by ID. Returns only sales that were created through the REST API.
    * https://developer.paypal.com/docs/api/payments/v1/#sale_get
-   * @param {string} paymentId
+   * @param {string} salesId - e.g "88A67294VY191105WA" (not to be confused with the Payment id)
    */
-  async getSale(paymentId) { // eslint-disable-line class-methods-use-this
+  async getSale(salesId) {
     return new Promise((resolve, reject) => {
-      paypal.sale.get(paymentId, (err, transaction) => {
+      this.paypal.sale.get(salesId, (err, response) => {
         if (err) {
           reject(err.response ? err.response : err);
         } else {
-          resolve(transaction);
-        }
-      });
-    });
-  }
-
-  /**
-   * Shows details for a payment, by ID, that has yet to complete
-   * https://developer.paypal.com/docs/api/payments/v1/#payment_get
-   * @param {string} paymentId e.g "PAY-9BD890500A9676143LNGX6KI"
-   */
-  async getPaymentDetails(paymentId) { // eslint-disable-line class-methods-use-this
-    return new Promise((resolve, reject) => {
-      paypal.payment.get(paymentId, (err, transaction) => {
-        if (err) {
-          reject(err.response ? err.response : err);
-        } else {
-          resolve(transaction);
+          resolve(response);
         }
       });
     });

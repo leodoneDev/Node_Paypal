@@ -2,12 +2,10 @@ import express from 'express';
 import PaypalService from '../services/paypal';
 import Order from '../domain/order';
 import PaypalAuthorisation from '../domain/paypal-authorisation';
+import logger from '../services/logger';
 
 const router = new express.Router();
 
-/**
- * Authorise the payment (step 1)
- */
 router.post('/paypal/create', async (req, res) => {
   try {
     const order = new Order(req.body);
@@ -21,7 +19,7 @@ router.post('/paypal/create', async (req, res) => {
 
     const paypalService = new PaypalService();
     const transaction = await paypalService.create(order);
-    console.log(`transaction created / authorised with transaction id ${transaction.id}`);
+    logger.info(`transaction created / authorised with transaction id ${transaction.id}`);
 
     res.json({
       data: {
@@ -30,7 +28,7 @@ router.post('/paypal/create', async (req, res) => {
       },
     });
   } catch (e) {
-    console.error('Error authorising payment', e);
+    logger.error('Error authorising payment', e);
     res.status(e.status || e.httpStatusCode || 500).json({
       errors: [{
         status: e.status || e.httpStatusCode || 500,
@@ -40,9 +38,6 @@ router.post('/paypal/create', async (req, res) => {
   }
 });
 
-/**
- * Finalise the payment (step 2)
- */
 router.post('/paypal/execute', async (req, res) => {
   try {
     const paypalAuthorisation = new PaypalAuthorisation(req.body);
@@ -56,7 +51,7 @@ router.post('/paypal/execute', async (req, res) => {
 
     const paypalService = new PaypalService();
     const transaction = await paypalService.execute(paypalAuthorisation);
-    console.log(`transaction executed with transaction id ${transaction.id}`);
+    logger.info(`transaction executed with transaction id ${transaction.id}`);
 
     res.json({
       data: {
@@ -65,7 +60,7 @@ router.post('/paypal/execute', async (req, res) => {
       },
     });
   } catch (e) {
-    console.error('Error finalising payment', e);
+    logger.error('Error finalising payment', e);
     res.status(e.status || e.httpStatusCode || 500).json({
       errors: [{
         status: e.status || e.httpStatusCode || 500,
@@ -76,21 +71,22 @@ router.post('/paypal/execute', async (req, res) => {
 });
 
 /**
- * Finalise the payment (step 2)
+ * Use the salesId from the transaction to verify the payment status
  */
-router.get('/paypal/verify/:id', async (req, res) => {
+router.get('/paypal/sale/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const paypalService = new PaypalService();
-    const transaction = await paypalService.getSale(id);
+    const sale = await paypalService.getSale(id);
 
     res.json({
       data: {
-        type: 'transaction',
-        attributes: transaction,
+        type: 'sale',
+        attributes: sale,
       },
     });
   } catch (e) {
+    logger.error('Error verifying sale', e);
     res.status(e.status || e.httpStatusCode || 500).json({
       errors: [{
         status: e.status || e.httpStatusCode || 500,

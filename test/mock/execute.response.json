@@ -1,16 +1,16 @@
 {
-  "id": "PAY-98772465SW995330BLNGW2CI",
-  "intent": "authorize",
+  "id": "PAY-67W39228S40398141LNHJSOQ",
+  "intent": "sale",
   "state": "approved",
-  "cart": "6PA61039B6159790K",
+  "cart": "81V89289X8050025Y",
   "payer": {
     "payment_method": "paypal",
     "status": "UNVERIFIED",
     "payer_info": {
-      "email": "peter.parker@email.com",
+      "email": "peter.parker@gmail.com",
       "first_name": "Peter",
       "last_name": "Parker",
-      "payer_id": "FKGGWLJPNKDT4",
+      "payer_id": "FKGGWLJPNKDT4X",
       "shipping_address": {
         "recipient_name": "Peter Parker",
         "line1": "75 Bayswater Rd",
@@ -31,9 +31,9 @@
       },
       "payee": {
         "merchant_id": "8DUDYZM36HHTL",
-        "email": "peter.parker-facilitator@email.com"
+        "email": "peter.parker-facilitator@gmail.com"
       },
-      "description": "Chicken family meal order id #905625",
+      "description": "Chicken family meal order #905625",
       "item_list": {
         "shipping_address": {
           "recipient_name": "Peter Parker",
@@ -46,58 +46,53 @@
       },
       "related_resources": [
         {
-          "authorization": {
-            "id": "3W255614RJ075370N",
-            "state": "authorized",
+          "sale": {
+            "id": "2VN548826Y296622R",
+            "state": "completed",
             "amount": {
               "total": "8.45",
               "currency": "AUD",
-              "details": {}
+              "details": {
+                "subtotal": "8.45"
+              }
             },
             "payment_mode": "INSTANT_TRANSFER",
-            "reason_code": "AUTHORIZATION",
             "protection_eligibility": "ELIGIBLE",
             "protection_eligibility_type": "ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE",
-            "parent_payment": "PAY-98772465SW995330BLNGW2CI",
-            "valid_until": "2018-08-15T04:14:18Z",
-            "create_time": "2018-07-17T04:14:18Z",
-            "update_time": "2018-07-17T04:14:18Z",
+            "transaction_fee": {
+              "value": "0.50",
+              "currency": "AUD"
+            },
+            "parent_payment": "PAY-67W39228S40398141LNHJSOQ",
+            "create_time": "2018-07-18T01:35:05Z",
+            "update_time": "2018-07-18T01:35:05Z",
             "links": [
               {
-                "href": "https://api.sandbox.paypal.com/v1/payments/authorization/3W255614RJ075370N",
+                "href": "https://api.sandbox.paypal.com/v1/payments/sale/2VN548826Y296622R",
                 "rel": "self",
                 "method": "GET"
               },
               {
-                "href": "https://api.sandbox.paypal.com/v1/payments/authorization/3W255614RJ075370N/capture",
-                "rel": "capture",
+                "href": "https://api.sandbox.paypal.com/v1/payments/sale/2VN548826Y296622R/refund",
+                "rel": "refund",
                 "method": "POST"
               },
               {
-                "href": "https://api.sandbox.paypal.com/v1/payments/authorization/3W255614RJ075370N/void",
-                "rel": "void",
-                "method": "POST"
-              },
-              {
-                "href": "https://api.sandbox.paypal.com/v1/payments/authorization/3W255614RJ075370N/reauthorize",
-                "rel": "reauthorize",
-                "method": "POST"
-              },
-              {
-                "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAY-98772465SW995330BLNGW2CI",
+                "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAY-67W39228S40398141LNHJSOQ",
                 "rel": "parent_payment",
                 "method": "GET"
               }
-            ]
+            ],
+            "soft_descriptor": "PAYPAL *TESTFACILIT"
           }
         }
       ]
     }
   ],
-  "create_time": "2018-07-17T04:14:19Z",
+  "create_time": "2018-07-18T01:35:06Z",
   "links": [
     {
-      "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAY-98772465SW995330BLNGW2CI",
+      "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAY-67W39228S40398141LNHJSOQ",
       "rel": "self",
       "method": "GET"
     }

@@ -22,7 +22,7 @@
         env: 'sandbox', // sandbox | production
         commit: true, // Show the buyer a 'Pay Now' button in the checkout flow
         payment: function () { // payment() is called when the button is clicked
-          console.log('payment flow started');
+          console.log('(1) Payment flow started');
           return paypal.request({
             method: 'POST',
             url: 'http://localhost:3000/paypal/create',
@@ -42,7 +42,7 @@
 
         // onAuthorize is called when the buyer approves the payment
         onAuthorize: function (data, actions) {
-          console.log('payment authorisation started');
+          console.log('(2) Payment authorisation started');
 
           return paypal.request({
             method: 'POST',
@@ -50,11 +50,11 @@
             json: data
           })
           .then(function (res) {
-            console.log('Transaction complete');
-            console.log('Transaction id: ' + res.data.attributes.id);
+            console.log('(3) Transaction complete');
+            console.log(res);
           })
           .catch(function(e){
-            console.log('Payment error', e);
+            console.log('Transaction error', e);
           })
         }
       }, '#paypal-button-container');

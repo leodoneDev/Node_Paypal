@@ -1,7 +1,7 @@
 import joi from 'joi';
 
 /**
- * Holds and validates the purchase authorisation as per generted by Palpal and posted /paypal/execute
+ * Holds and validates the purchase authorisation as per generted by Palpal posted client side to /paypal/execute
  */
 export default class PaypalAuthorisation {
   constructor({
