@@ -1,6 +1,14 @@
 # Paypal server-side implementation with Node.js
 
-Example of Paypal client-side / server-side integration flow.
+Example of Paypal client-side / server-side integration flow.  
+Essentially this is a full implementation of https://developer.paypal.com/demo/checkout/#/pattern/server  
+
+I have kept the files organised making the code portable.
+
+## Tooling
+* Node.js es6
+* Target version Node v8.9.4
+* Using Babel to transpile to es5
 
 ## Prerequisites and configuration
 * Go to https://developer.paypal.com/
