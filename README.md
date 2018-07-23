@@ -22,7 +22,8 @@ I have kept the files organised making the code portable.
 npm i  
 npm start
 ```
-Go to http://localhost:3000 and click the "Paypal Checkout" button. This will start the payment flow.
+Go to http://localhost:3001 and click the "Paypal Checkout" button. This will start the payment flow.
+Open your console to see the req / res flow.
 
 ## Paypal SDK
 This project uses the Node.js [Paypal REST SDK](https://www.npmjs.com/package/paypal-rest-sdk) which under the hood makes HTTP requests to the [Paypal API](https://developer.paypal.com/docs/api/payments/v1/).

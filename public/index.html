@@ -22,17 +22,26 @@
         env: 'sandbox', // sandbox | production
         commit: true, // Show the buyer a 'Pay Now' button in the checkout flow
         payment: function () { // payment() is called when the button is clicked
-          console.log('(1) Payment flow started');
+          console.log('(1) Sending payment creation request to server...');
+          var payload = {
+            orderId: '905625',
+            amount: 8.45,
+            description: 'Chicken family meal order #905625'
+          };
+
+          console.log('Request payload to /paypal/create');
+          console.log(JSON.stringify(payload, null, 2));
+
           return paypal.request({
             method: 'POST',
-            url: 'http://localhost:3000/paypal/create',
-            json: {
-              orderId: '905625',
-              amount: 8.45,
-              description: 'Chicken family meal order #905625'
-            }
+            url: 'http://localhost:3001/paypal/create',
+            json: payload
           })
           .then(function (res) {
+            console.log('(2) New server-side payment created id=' + res.data.id);
+            console.log('Response payload');
+            console.log(JSON.stringify(res, null, 2));
+            console.log('(3) Waiting for customer to approve transation (client-side)');
             return res.data.id;
           })
           .catch(function(e){
@@ -42,16 +51,22 @@
 
         // onAuthorize is called when the buyer approves the payment
         onAuthorize: function (data, actions) {
-          console.log('(2) Payment authorisation started');
+          console.log('(4) Customer authorisation successful');
+          console.log(JSON.stringify(data, null, 2));
+          console.log('(5) Sending authorisation request to server...');
+
+          console.log('Request payload to paypal/execute');
+          console.log(JSON.stringify(data, null, 2));
 
           return paypal.request({
             method: 'POST',
-            url: 'http://localhost:3000/paypal/execute',
+            url: 'http://localhost:3001/paypal/execute',
             json: data
           })
           .then(function (res) {
-            console.log('(3) Transaction complete');
-            console.log(res);
+            console.log('(6) Server-side authorisation successful');
+            console.log('Response payload');
+            console.log(JSON.stringify(res, null, 2));
           })
           .catch(function(e){
             console.log('Transaction error', e);

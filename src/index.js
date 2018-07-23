@@ -21,6 +21,6 @@ app
   .use('/', paypalController)
   .use('/', pagesController);
 
-app.listen(process.env.PORT || 3000, () => {
-  log.info(`App listening on port ${process.env.PORT || 3000}`);
+app.listen(process.env.PORT || 3001, () => {
+  log.info(`App listening on port ${process.env.PORT || 3001}`);
 });
