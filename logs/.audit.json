@@ -1,0 +1,19 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "E:\\web\\paypal-node\\logs/.audit.json",
+    "files": [
+        {
+            "date": 1743445112442,
+            "name": "E:\\web\\paypal-node\\logs\\2025-04-01.log",
+            "hash": "1d1a512d9a3773920b3a0ab66cd3306d"
+        },
+        {
+            "date": 1743445224774,
+            "name": "E:\\web\\paypal-node\\logs\\2025-04-01.log",
+            "hash": "7187426748c8a84b38c6499b216a581a"
+        }
+    ]
+}
